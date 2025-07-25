@@ -1,5 +1,4 @@
 var tableroContainer = document.getElementById('tablero');
-var mensajeContainer = document.getElementById('mensaje');
 var formularioJugador = document.getElementById('formularioJugador');
 var informacionJugadorTexto = document.getElementById('informacionJugador');
 var tablero = [];
@@ -9,7 +8,7 @@ var minas = 0;
 var partidaTerminada = false;
 var banderasActivas = 0;
 
-var tiempoInicioPartida = null;
+var tiempoInicio = null;
 var intervaloTemporizador = null;
 var tiempoTranscurrido = 0;
 
@@ -18,19 +17,18 @@ document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 function iniciarJuego() {
     var nombreJugador = formularioJugador.nombreJugador.value;
     if (!nombreJugador) {
-        alert('Por favor, ingresa tu nombre.');
+        mostrarModal('Por favor, ingresa tu nombre.');
         return;
     }
 
     if (nombreJugador.length < 3) {
-        alert('El nombre debe tener al menos 3 caracteres.');
+        mostrarModal('El nombre debe tener al menos 3 caracteres.');
         return;
     }
 
     /* Reseteamos todas las variables de juego*/
     tablero = [];
     minas = 10;
-    mensajeContainer.textContent = '';
     partidaTerminada = false;
     informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
     banderasActivas = 0;
@@ -91,7 +89,7 @@ function actualizarCantidadMinasAdyacentes(fila, columna) {
 }
 
 function revelarCelda(elemento) {
-    if (!tiempoInicioPartida) {
+    if (!tiempoInicio) {
         iniciarTemporizador();
     }
 
@@ -141,7 +139,7 @@ function revelarCelda(elemento) {
 function terminarJuego(mensajeFinal) {
     detenerTemporizador();
     partidaTerminada = true;
-    mensajeContainer.textContent = mensajeFinal;
+    mostrarModal(mensajeFinal);
 
     // Mostramos todas las minas en el tablero
     for (var fila = 0; fila < filas; fila++) {
@@ -212,9 +210,9 @@ function iniciarTemporizador() {
         return;
     }
 
-    tiempoInicioPartida = Date.now();
+    tiempoInicio = Date.now();
     intervaloTemporizador = setInterval(() => {
-        tiempoTranscurrido = Math.floor((Date.now() - tiempoInicioPartida) / 1000);
+        tiempoTranscurrido = Math.floor((Date.now() - tiempoInicio) / 1000);
         document.getElementById('tiempo').textContent = `⏱️ Tiempo: ${tiempoTranscurrido}s`;
     }, 1000);
 }
@@ -222,5 +220,18 @@ function iniciarTemporizador() {
 function detenerTemporizador() {
     clearInterval(intervaloTemporizador);
     intervaloTemporizador = null;
-    tiempoInicioPartida = null;
+    tiempoInicio = null;
+}
+
+function mostrarModal(mensaje) {
+    var modal = document.getElementById('modal');
+    var modalMensaje = document.getElementById('modalMensaje');
+
+    modalMensaje.textContent = mensaje;
+    modal.classList.remove('oculto');
+}
+
+function cerrarModal() {
+    var modal = document.getElementById('modal');
+    modal.classList.add('oculto');
 }
