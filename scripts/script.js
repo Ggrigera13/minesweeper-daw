@@ -23,7 +23,9 @@ function iniciarJuego() {
         for (var columna = 0; columna < columnas; columna++) {
             var celda = document.createElement('div');
             celda.classList.add('celda');
-
+            celda.dataset.fila = fila;
+            celda.dataset.columna = columna;
+            celda.addEventListener('click', revelarCelda);
             tableroContainer.appendChild(celda);
             tablero[fila][columna] = { mina: false, revelada: false, numero: 0, elemento: celda };
         }
@@ -56,6 +58,33 @@ function actualizarCantidadMinasAdyacentes(fila, columna) {
                 !(filaAdyacente === fila && columnaAdyacente === columna)
             ) {
                 tablero[filaAdyacente][columnaAdyacente].numero++;
+            }
+        }
+    }
+}
+
+function revelarCelda(elemento) {
+    var fila = parseInt(this.dataset.fila);
+    var columna = parseInt(this.dataset.columna);
+    var celda = tablero[fila][columna];
+
+    if (celda.revelada) return;
+
+    celda.revelada = true;
+    celda.elemento.classList.add('revelada');
+
+    if (celda.mina) {
+        celda.elemento.classList.add('mina');
+        celda.elemento.textContent = '💣';
+    } else if (celda.numero > 0) {
+        celda.elemento.dataset.numero = celda.numero;
+        celda.elemento.textContent = celda.numero;
+    } else {
+        for (var filaAdyacente = fila - 1; filaAdyacente <= fila + 1; filaAdyacente++) {
+            for (var columnaAdyacente = columna - 1; columnaAdyacente <= columna + 1; columnaAdyacente++) {
+                if (filaAdyacente >= 0 && filaAdyacente < filas && columnaAdyacente >= 0 && columnaAdyacente < columnas) {
+                    revelarCelda.call(tablero[filaAdyacente][columnaAdyacente].elemento);
+                }
             }
         }
     }

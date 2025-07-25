@@ -104,8 +104,69 @@ p {
     width: 30px;
     height: 30px;
     background-color: #cfc1c1;
-    border: 1px solid #999;
+    border: 1px solid #999999;
     font-weight: bold;
     font-size: 18px;
     cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.celda:hover {
+    background-color: #a47858;
+    transform: scale(1.05);
+}
+
+.celda.revelada {
+    background-color: #e7cba9;
+    color: #222;
+    cursor: default;
+    box-shadow: inset 0 0 4px #a3784c;
+}
+
+.celda.mina {
+    background-color: #ff6f3c;
+    color: white;
+    font-size: 22px;
+}
+
+.revelada {
+    background-color: #eeeeee;
+    cursor: default;
+}
+
+.mina {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.celda.revelada[data-numero='1'] { 
+    color: #00aaff; 
+}
+
+.celda.revelada[data-numero='2'] { 
+    color: #00cc66; 
+}
+
+.celda.revelada[data-numero='3'] { 
+    color: #ff4444; 
+}
+
+.celda.revelada[data-numero='4'] { 
+    color: #ff8800; 
+}
+
+.celda.revelada[data-numero='5'] { 
+    color: #aa66cc; 
+}
+
+.celda.revelada[data-numero='6'] { 
+    color: #00dddd; 
+}
+
+.celda.revelada[data-numero='7'] { 
+    color: #555555; 
+}
+
+.celda.revelada[data-numero='8'] { 
+    color: #888800; 
 }
