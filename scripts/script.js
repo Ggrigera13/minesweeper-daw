@@ -13,6 +13,7 @@ var intervaloTemporizador = null;
 var tiempoTranscurrido = 0;
 
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
+document.getElementById("contacto").addEventListener("click", redirigirContacto);
 
 function iniciarJuego() {
     var nombreJugador = formularioJugador.nombreJugador.value;
@@ -234,4 +235,8 @@ function mostrarModal(mensaje) {
 function cerrarModal() {
     var modal = document.getElementById('modal');
     modal.classList.add('oculto');
+}
+
+function redirigirContacto() {
+    window.location.href = 'contacto.html';
 }
