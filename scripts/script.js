@@ -6,7 +6,7 @@ var tablero = [];
 var filas = 0;
 var columnas = 0;
 var minas = 0;
-var partidaPerdida = false;
+var partidaTerminada = false;
 
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 
@@ -26,7 +26,7 @@ function iniciarJuego() {
     tablero = [];
     minas = 10;
     mensajeContainer.textContent = '';
-    partidaPerdida = false;
+    partidaTerminada = false;
     informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
 
     /* Creacion de tablero */
@@ -82,11 +82,15 @@ function actualizarCantidadMinasAdyacentes(fila, columna) {
 }
 
 function revelarCelda(elemento) {
+    if (partidaTerminada) {
+        return;
+    }
+
     var fila = parseInt(this.dataset.fila);
     var columna = parseInt(this.dataset.columna);
     var celda = tablero[fila][columna];
 
-    if (partidaPerdida || celda.revelada) {
+    if (celda.revelada) {
         return;
     }
 
@@ -109,10 +113,14 @@ function revelarCelda(elemento) {
             }
         }
     }
+
+    if (validarPartidaGanada()) {
+        terminarJuego('🎉 ¡Ganaste! Felicitaciones.');
+    }
 }
 
 function terminarJuego(mensajeFinal) {
-    partidaPerdida = true;
+    partidaTerminada = true;
     mensajeContainer.textContent = mensajeFinal;
 
     // Mostramos todas las minas en el tablero
@@ -125,4 +133,18 @@ function terminarJuego(mensajeFinal) {
             }
         }
     }
+}
+
+function validarPartidaGanada() {
+    for (var fila = 0; fila < filas; fila++) {
+        for (var columna = 0; columna < columnas; columna++) {
+            var celda = tablero[fila][columna];
+            
+            if (!celda.mina && !celda.revelada) {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
