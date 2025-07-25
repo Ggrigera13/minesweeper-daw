@@ -88,3 +88,24 @@ p {
 .informacion .tiempo {
     color: #ffb347;
 }
+
+.tablero {
+    display: grid;
+    margin: 20px auto;
+    gap: 2px;
+    width: fit-content;
+}
+
+.nivel-bajo {
+    grid-template-columns: repeat(8, 30px);
+}
+
+.celda {
+    width: 30px;
+    height: 30px;
+    background-color: #cfc1c1;
+    border: 1px solid #999;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
