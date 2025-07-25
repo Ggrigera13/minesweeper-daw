@@ -224,3 +224,29 @@ p {
     font-size: 14px;
     cursor: pointer;
 }
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+footer a.github-link {
+    padding: 10px;
+    background-color: #6b4a2d;
+    color: #eee1c5;
+    border-radius: 5px;
+}
+
+footer a.github-link:hover {
+    background-color: #5a3d25;
+}
+
+.github-link i {
+    margin-right: 5px;
+}
+
+footer .autor {
+    color: #eee1c5;
+}
