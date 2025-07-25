@@ -3,20 +3,32 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Buscaminas</title>
+        <title>Buscaminas - ¡Juega ahora!</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="styles/style.css">
     </head>
     <body>
         <header>
-            <nav>
-            </nav>
+            <h1>🔥Buscaminas🔥</h1>
+            <p>¡Evita las minas 💣 y revela todas las celdas 🔲!</p>
         </header>
         <main>
-            <section>
+             <section>
+                <div class="controles">
+                    <button id="comenzar" class="comenzar">Comenzar Juego</button>
+                </div>
+                <div class="juego">
+                    <div id="informacion" class="informacion">
+                        <span id="jugadorNombre">Jugador: --</span> |
+                        <span id="nivel">Nivel: 1</span> |
+                        <span id="tiempo" class="tiempo">Tiempo: 0s</span>
+                    </div>
+                </div>
             </section>
         </main>
         
         <footer>
+
         </footer>
 
         <script src="scripts/script.js"></script>
