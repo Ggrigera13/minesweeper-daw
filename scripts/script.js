@@ -1,8 +1,10 @@
 var tableroContainer = document.getElementById('tablero');
+var mensajeContainer = document.getElementById('mensaje');
 var tablero = [];
 var filas = 0;
 var columnas = 0;
 var minas = 0;
+var partidaPerdida = false;
 
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 
@@ -10,6 +12,8 @@ function iniciarJuego() {
     /* Reseteamos todas las variables de juego*/
     tablero = [];
     minas = 10;
+    mensajeContainer.textContent = '';
+    partidaPerdida = false;
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = '';
@@ -68,7 +72,9 @@ function revelarCelda(elemento) {
     var columna = parseInt(this.dataset.columna);
     var celda = tablero[fila][columna];
 
-    if (celda.revelada) return;
+    if (partidaPerdida || celda.revelada) {
+        return;
+    }
 
     celda.revelada = true;
     celda.elemento.classList.add('revelada');
@@ -76,6 +82,7 @@ function revelarCelda(elemento) {
     if (celda.mina) {
         celda.elemento.classList.add('mina');
         celda.elemento.textContent = '💣';
+        terminarJuego('💣 Perdiste. Tocaste una mina.');
     } else if (celda.numero > 0) {
         celda.elemento.dataset.numero = celda.numero;
         celda.elemento.textContent = celda.numero;
@@ -85,6 +92,22 @@ function revelarCelda(elemento) {
                 if (filaAdyacente >= 0 && filaAdyacente < filas && columnaAdyacente >= 0 && columnaAdyacente < columnas) {
                     revelarCelda.call(tablero[filaAdyacente][columnaAdyacente].elemento);
                 }
+            }
+        }
+    }
+}
+
+function terminarJuego(mensajeFinal) {
+    partidaPerdida = true;
+    mensajeContainer.textContent = mensajeFinal;
+
+    // Mostramos todas las minas en el tablero
+    for (var fila = 0; fila < filas; fila++) {
+        for (var columna = 0; columna < columnas; columna++) {
+            var celda = tablero[fila][columna];
+            if (celda.mina) {
+                celda.elemento.classList.add('mina');
+                celda.elemento.textContent = '💣';
             }
         }
     }

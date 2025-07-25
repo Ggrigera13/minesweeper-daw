@@ -89,6 +89,15 @@ p {
     color: #ffb347;
 }
 
+.mensaje {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #ff5555;
+    font-weight: bold;
+    min-height: 24px;
+}
+
 .tablero {
     display: grid;
     margin: 20px auto;
