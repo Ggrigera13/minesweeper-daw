@@ -44,8 +44,9 @@ function iniciarJuego() {
             celda.dataset.fila = fila;
             celda.dataset.columna = columna;
             celda.addEventListener('click', revelarCelda);
+            celda.addEventListener('contextmenu', marcarBandera);
             tableroContainer.appendChild(celda);
-            tablero[fila][columna] = { mina: false, revelada: false, numero: 0, elemento: celda };
+            tablero[fila][columna] = { mina: false, revelada: false, numero: 0, banderaActiva: false, elemento: celda };
         }
     }
 
@@ -92,6 +93,12 @@ function revelarCelda(elemento) {
 
     if (celda.revelada) {
         return;
+    }
+
+    if (celda.banderaActiva) {
+        celda.banderaActiva = false;
+        celda.elemento.textContent = '';
+        celda.elemento.classList.remove('bandera');
     }
 
     celda.revelada = true;
@@ -147,4 +154,26 @@ function validarPartidaGanada() {
     }
     
     return true;
+}
+
+function marcarBandera(e) {
+    e.preventDefault();
+
+    var fila = parseInt(this.dataset.fila);
+    var columna = parseInt(this.dataset.columna);
+    var celda = tablero[fila][columna];
+
+    if (celda.revelada) {
+        return;
+    }
+
+    if (celda.banderaActiva) {
+        celda.banderaActiva = false;
+        celda.elemento.textContent = '';
+        celda.elemento.classList.remove('bandera');
+    } else {
+        celda.banderaActiva = true;
+        celda.elemento.textContent = '🚩';
+        celda.elemento.classList.add('bandera');
+    }
 }

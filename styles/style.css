@@ -148,6 +148,12 @@ p {
     color: #ffffff;
 }
 
+.celda.bandera {
+    background-color: #ffeeba;
+    font-size: 20px;
+    text-align: center;
+}
+
 .celda.revelada[data-numero='1'] { 
     color: #00aaff; 
 }
