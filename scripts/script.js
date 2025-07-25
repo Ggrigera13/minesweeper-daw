@@ -1,5 +1,7 @@
 var tableroContainer = document.getElementById('tablero');
 var mensajeContainer = document.getElementById('mensaje');
+var formularioJugador = document.getElementById('formularioJugador');
+var informacionJugadorTexto = document.getElementById('informacionJugador');
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -9,11 +11,23 @@ var partidaPerdida = false;
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 
 function iniciarJuego() {
+    var nombreJugador = formularioJugador.nombreJugador.value;
+    if (!nombreJugador) {
+        alert('Por favor, ingresa tu nombre.');
+        return;
+    }
+
+    if (nombreJugador.length < 3) {
+        alert('El nombre debe tener al menos 3 caracteres.');
+        return;
+    }
+
     /* Reseteamos todas las variables de juego*/
     tablero = [];
     minas = 10;
     mensajeContainer.textContent = '';
     partidaPerdida = false;
+    informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = '';
