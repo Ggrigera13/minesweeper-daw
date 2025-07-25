@@ -185,3 +185,11 @@ p {
 .celda.revelada[data-numero='8'] { 
     color: #888800; 
 }
+
+.minas-restantes {
+    transition: color 0.3s ease;
+}
+
+.minas-restantes.negativo {
+    color: red;
+}

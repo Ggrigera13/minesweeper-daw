@@ -7,6 +7,8 @@ var filas = 0;
 var columnas = 0;
 var minas = 0;
 var partidaTerminada = false;
+var banderasActivas = 0;
+
 
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 
@@ -28,6 +30,8 @@ function iniciarJuego() {
     mensajeContainer.textContent = '';
     partidaTerminada = false;
     informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
+    banderasActivas = 0;
+    actualizarContadorMinas();
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = '';
@@ -157,6 +161,10 @@ function validarPartidaGanada() {
 }
 
 function marcarBandera(e) {
+    if (partidaTerminada) {
+        return;
+    }
+    
     e.preventDefault();
 
     var fila = parseInt(this.dataset.fila);
@@ -171,9 +179,21 @@ function marcarBandera(e) {
         celda.banderaActiva = false;
         celda.elemento.textContent = '';
         celda.elemento.classList.remove('bandera');
+        banderasActivas--;
     } else {
         celda.banderaActiva = true;
         celda.elemento.textContent = '🚩';
         celda.elemento.classList.add('bandera');
+        banderasActivas++;
     }
+
+    actualizarContadorMinas();
+}
+
+function actualizarContadorMinas() {
+    var minasRestantes = minas - banderasActivas;
+    var contadorElemento = document.getElementById('minasRestantes');
+    contadorElemento.textContent = `Minas restantes: ${minasRestantes}`;
+
+    contadorElemento.classList.toggle('negativo', minasRestantes < 0);
 }
