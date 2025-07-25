@@ -9,6 +9,9 @@ var minas = 0;
 var partidaTerminada = false;
 var banderasActivas = 0;
 
+var tiempoInicioPartida = null;
+var intervaloTemporizador = null;
+var tiempoTranscurrido = 0;
 
 document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 
@@ -32,6 +35,7 @@ function iniciarJuego() {
     informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
     banderasActivas = 0;
     actualizarContadorMinas();
+    document.getElementById('tiempo').textContent = `⏱️ Tiempo: 0s`;
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = '';
@@ -87,6 +91,10 @@ function actualizarCantidadMinasAdyacentes(fila, columna) {
 }
 
 function revelarCelda(elemento) {
+    if (!tiempoInicioPartida) {
+        iniciarTemporizador();
+    }
+
     if (partidaTerminada) {
         return;
     }
@@ -131,6 +139,7 @@ function revelarCelda(elemento) {
 }
 
 function terminarJuego(mensajeFinal) {
+    detenerTemporizador();
     partidaTerminada = true;
     mensajeContainer.textContent = mensajeFinal;
 
@@ -164,7 +173,7 @@ function marcarBandera(e) {
     if (partidaTerminada) {
         return;
     }
-    
+
     e.preventDefault();
 
     var fila = parseInt(this.dataset.fila);
@@ -196,4 +205,22 @@ function actualizarContadorMinas() {
     contadorElemento.textContent = `Minas restantes: ${minasRestantes}`;
 
     contadorElemento.classList.toggle('negativo', minasRestantes < 0);
+}
+
+function iniciarTemporizador() {
+    if (intervaloTemporizador) {
+        return;
+    }
+
+    tiempoInicioPartida = Date.now();
+    intervaloTemporizador = setInterval(() => {
+        tiempoTranscurrido = Math.floor((Date.now() - tiempoInicioPartida) / 1000);
+        document.getElementById('tiempo').textContent = `⏱️ Tiempo: ${tiempoTranscurrido}s`;
+    }, 1000);
+}
+
+function detenerTemporizador() {
+    clearInterval(intervaloTemporizador);
+    intervaloTemporizador = null;
+    tiempoInicioPartida = null;
 }
