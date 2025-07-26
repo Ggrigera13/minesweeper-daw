@@ -1,99 +1,91 @@
-var tableroContainer = document.getElementById('tablero');
-var formularioJugador = document.getElementById('formularioJugador');
-var informacionJugadorTexto = document.getElementById('informacionJugador');
-var reiniciarBoton = document.getElementById('reiniciar');
-var comenzarBoton = document.getElementById('comenzar');
+'use strict';
+
+var tableroContainer = document.getElementById("tablero");
+var formularioJugador = document.getElementById("formularioJugador");
+var informacionJugadorTexto = document.getElementById("informacionJugador");
+var reiniciarBoton = document.getElementById("reiniciar");
+var comenzarBoton = document.getElementById("comenzar");
+var botonContacto = document.getElementById("contacto");
+var botonCerrarModal = document.getElementById("cerrarModal");
 var tablero = [];
 var filas = 0;
 var columnas = 0;
 var minas = 0;
 var partidaTerminada = false;
 var banderasActivas = 0;
-
 var tiempoInicio = null;
 var intervaloTemporizador = null;
 var tiempoTranscurrido = 0;
 
-document.getElementById("contacto").addEventListener("click", redirigirContacto);
-comenzarBoton.addEventListener('click', iniciarJuego);
-reiniciarBoton.addEventListener('click', reiniciarJuego);
-
 reiniciarBoton.disabled = true;
 
-function iniciarJuego() {
-    var nombreJugador = formularioJugador.nombreJugador.value;
-    if (!nombreJugador) {
-        mostrarModal('Por favor, ingresa tu nombre.');
+function mostrarModal(mensaje) {
+    var modal = document.getElementById("modal");
+    var modalMensaje = document.getElementById("modalMensaje");
+
+    modalMensaje.textContent = mensaje;
+    modal.classList.remove("oculto");
+}
+
+function actualizarContadorMinas() {
+    var minasRestantes = minas - banderasActivas;
+    var contadorElemento = document.getElementById("minasRestantes");
+    contadorElemento.textContent = `Minas restantes: ${minasRestantes}`;
+
+    contadorElemento.classList.toggle("negativo", minasRestantes < 0);
+}
+
+function actualizarTemporizador() {
+    tiempoTranscurrido = Math.floor((Date.now() - tiempoInicio) / 1000);
+    document.getElementById('tiempo').textContent = '⏱️ Tiempo: ' + tiempoTranscurrido + 's';
+}
+
+function iniciarTemporizador() {
+    if (intervaloTemporizador) {
         return;
     }
 
-    if (nombreJugador.length < 3) {
-        mostrarModal('El nombre debe tener al menos 3 caracteres.');
-        return;
-    }
+    tiempoInicio = Date.now();
+    intervaloTemporizador = setInterval(actualizarTemporizador, 1000);
+}
 
-    /* Reseteamos todas las variables de juego*/
-    tablero = [];
-    minas = 10;
-    partidaTerminada = false;
-    informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
-    banderasActivas = 0;
-    actualizarContadorMinas();
-    document.getElementById('tiempo').textContent = `⏱️ Tiempo: 0s`;
-    reiniciarBoton.disabled = false;
-    comenzarBoton.disabled = true;
+function detenerTemporizador() {
+    clearInterval(intervaloTemporizador);
+    intervaloTemporizador = null;
+    tiempoInicio = null;
+}
 
-    /* Creacion de tablero */
-    tableroContainer.innerHTML = '';
-    tableroContainer.classList.add("tablero");
-    tableroContainer.classList.add("nivel-bajo");
-    filas = 8;
-    columnas = 8;
+function terminarJuego(mensajeFinal) {
+    detenerTemporizador();
+    partidaTerminada = true;
+    comenzarBoton.disabled = false;
+    reiniciarBoton.disabled = true;
+    mostrarModal(mensajeFinal);
 
+    // Mostramos todas las minas en el tablero
     for (var fila = 0; fila < filas; fila++) {
-        tablero[fila] = [];
         for (var columna = 0; columna < columnas; columna++) {
-            var celda = document.createElement('div');
-            celda.classList.add('celda');
-            celda.dataset.fila = fila;
-            celda.dataset.columna = columna;
-            celda.addEventListener('click', revelarCelda);
-            celda.addEventListener('contextmenu', marcarBandera);
-            tableroContainer.appendChild(celda);
-            tablero[fila][columna] = { mina: false, revelada: false, numero: 0, banderaActiva: false, elemento: celda };
-        }
-    }
-
-    colocarMinas();
-}
-
-/* Colocamos las minas en el tablero de forma aleatoria */
-function colocarMinas() {
-    minasColocadas = 0;
-    while (minasColocadas < minas) {
-        var fila = Math.floor(Math.random() * filas);
-        var columna = Math.floor(Math.random() * columnas);
-        if (!tablero[fila][columna].mina) {
-            tablero[fila][columna].mina = true;
-            minasColocadas++;
-            actualizarCantidadMinasAdyacentes(fila, columna);
-        }
-    }
-}
-
-/* Actualizamos el número de la cantidad de minas adyacentes a cada celda */
-function actualizarCantidadMinasAdyacentes(fila, columna) {
-    for (var filaAdyacente = fila - 1; filaAdyacente <= fila + 1; filaAdyacente++) {
-        for (var columnaAdyacente = columna - 1; columnaAdyacente <= columna + 1; columnaAdyacente++) {
-            if (
-                filaAdyacente >= 0 && filaAdyacente < filas &&
-                columnaAdyacente >= 0 && columnaAdyacente < columnas &&
-                !(filaAdyacente === fila && columnaAdyacente === columna)
-            ) {
-                tablero[filaAdyacente][columnaAdyacente].numero++;
+            var celda = tablero[fila][columna];
+            if (celda.mina) {
+                celda.elemento.classList.add("mina");
+                celda.elemento.textContent = "💣";
             }
         }
     }
+}
+
+function validarPartidaGanada() {
+    for (var fila = 0; fila < filas; fila++) {
+        for (var columna = 0; columna < columnas; columna++) {
+            var celda = tablero[fila][columna];
+            
+            if (!celda.mina && !celda.revelada) {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
 
 function revelarCelda(elemento) {
@@ -115,17 +107,17 @@ function revelarCelda(elemento) {
 
     if (celda.banderaActiva) {
         celda.banderaActiva = false;
-        celda.elemento.textContent = '';
-        celda.elemento.classList.remove('bandera');
+        celda.elemento.textContent = "";
+        celda.elemento.classList.remove("bandera");
     }
 
     celda.revelada = true;
-    celda.elemento.classList.add('revelada');
+    celda.elemento.classList.add("revelada");
 
     if (celda.mina) {
-        celda.elemento.classList.add('mina');
-        celda.elemento.textContent = '💣';
-        terminarJuego('💣 Perdiste. Tocaste una mina.');
+        celda.elemento.classList.add("mina");
+        celda.elemento.textContent = "💣";
+        terminarJuego("💣 Perdiste. Tocaste una mina.");
     } else if (celda.numero > 0) {
         celda.elemento.dataset.numero = celda.numero;
         celda.elemento.textContent = celda.numero;
@@ -140,41 +132,8 @@ function revelarCelda(elemento) {
     }
 
     if (validarPartidaGanada()) {
-        terminarJuego('🎉 ¡Ganaste! Felicitaciones.');
+        terminarJuego("🎉 ¡Ganaste! Felicitaciones.");
     }
-}
-
-function terminarJuego(mensajeFinal) {
-    detenerTemporizador();
-    partidaTerminada = true;
-    comenzarBoton.disabled = false;
-    reiniciarBoton.disabled = true;
-    mostrarModal(mensajeFinal);
-
-    // Mostramos todas las minas en el tablero
-    for (var fila = 0; fila < filas; fila++) {
-        for (var columna = 0; columna < columnas; columna++) {
-            var celda = tablero[fila][columna];
-            if (celda.mina) {
-                celda.elemento.classList.add('mina');
-                celda.elemento.textContent = '💣';
-            }
-        }
-    }
-}
-
-function validarPartidaGanada() {
-    for (var fila = 0; fila < filas; fila++) {
-        for (var columna = 0; columna < columnas; columna++) {
-            var celda = tablero[fila][columna];
-            
-            if (!celda.mina && !celda.revelada) {
-                return false;
-            }
-        }
-    }
-    
-    return true;
 }
 
 function marcarBandera(e) {
@@ -194,63 +153,110 @@ function marcarBandera(e) {
 
     if (celda.banderaActiva) {
         celda.banderaActiva = false;
-        celda.elemento.textContent = '';
-        celda.elemento.classList.remove('bandera');
+        celda.elemento.textContent = "";
+        celda.elemento.classList.remove("bandera");
         banderasActivas--;
     } else {
         celda.banderaActiva = true;
-        celda.elemento.textContent = '🚩';
-        celda.elemento.classList.add('bandera');
+        celda.elemento.textContent = "🚩";
+        celda.elemento.classList.add("bandera");
         banderasActivas++;
     }
 
     actualizarContadorMinas();
 }
 
-function actualizarContadorMinas() {
-    var minasRestantes = minas - banderasActivas;
-    var contadorElemento = document.getElementById('minasRestantes');
-    contadorElemento.textContent = `Minas restantes: ${minasRestantes}`;
-
-    contadorElemento.classList.toggle('negativo', minasRestantes < 0);
+/* Actualizamos el número de la cantidad de minas adyacentes a cada celda */
+function actualizarCantidadMinasAdyacentes(fila, columna) {
+    for (var filaAdyacente = fila - 1; filaAdyacente <= fila + 1; filaAdyacente++) {
+        for (var columnaAdyacente = columna - 1; columnaAdyacente <= columna + 1; columnaAdyacente++) {
+            if (
+                filaAdyacente >= 0 && filaAdyacente < filas &&
+                columnaAdyacente >= 0 && columnaAdyacente < columnas &&
+                !(filaAdyacente === fila && columnaAdyacente === columna)
+            ) {
+                tablero[filaAdyacente][columnaAdyacente].numero++;
+            }
+        }
+    }
 }
 
-function iniciarTemporizador() {
-    if (intervaloTemporizador) {
+/* Colocamos las minas en el tablero de forma aleatoria */
+function colocarMinas() {
+    var minasColocadas = 0;
+    while (minasColocadas < minas) {
+        var fila = Math.floor(Math.random() * filas);
+        var columna = Math.floor(Math.random() * columnas);
+        if (!tablero[fila][columna].mina) {
+            tablero[fila][columna].mina = true;
+            minasColocadas++;
+            actualizarCantidadMinasAdyacentes(fila, columna);
+        }
+    }
+}
+
+function iniciarJuego() {
+    var nombreJugador = formularioJugador.nombreJugador.value;
+    if (!nombreJugador) {
+        mostrarModal("Por favor, ingresa tu nombre.");
         return;
     }
 
-    tiempoInicio = Date.now();
-    intervaloTemporizador = setInterval(() => {
-        tiempoTranscurrido = Math.floor((Date.now() - tiempoInicio) / 1000);
-        document.getElementById('tiempo').textContent = `⏱️ Tiempo: ${tiempoTranscurrido}s`;
-    }, 1000);
-}
+    if (nombreJugador.length < 3) {
+        mostrarModal("El nombre debe tener al menos 3 caracteres.");
+        return;
+    }
 
-function detenerTemporizador() {
-    clearInterval(intervaloTemporizador);
-    intervaloTemporizador = null;
-    tiempoInicio = null;
-}
+    /* Reseteamos todas las variables de juego*/
+    tablero = [];
+    minas = 10;
+    partidaTerminada = false;
+    informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
+    banderasActivas = 0;
+    actualizarContadorMinas();
+    document.getElementById("tiempo").textContent = "⏱️ Tiempo: 0s";
+    reiniciarBoton.disabled = false;
+    comenzarBoton.disabled = true;
 
-function mostrarModal(mensaje) {
-    var modal = document.getElementById('modal');
-    var modalMensaje = document.getElementById('modalMensaje');
+    /* Creacion de tablero */
+    tableroContainer.innerHTML = "";
+    tableroContainer.classList.add("tablero");
+    tableroContainer.classList.add("nivel-bajo");
+    filas = 8;
+    columnas = 8;
 
-    modalMensaje.textContent = mensaje;
-    modal.classList.remove('oculto');
+    for (var fila = 0; fila < filas; fila++) {
+        tablero[fila] = [];
+        for (var columna = 0; columna < columnas; columna++) {
+            var celda = document.createElement("div");
+            celda.classList.add("celda");
+            celda.dataset.fila = fila;
+            celda.dataset.columna = columna;
+            celda.addEventListener("click", revelarCelda);
+            celda.addEventListener("contextmenu", marcarBandera);
+            tableroContainer.appendChild(celda);
+            tablero[fila][columna] = { mina: false, revelada: false, numero: 0, banderaActiva: false, elemento: celda };
+        }
+    }
+
+    colocarMinas();
 }
 
 function cerrarModal() {
-    var modal = document.getElementById('modal');
-    modal.classList.add('oculto');
+    var modal = document.getElementById("modal");
+    modal.classList.add("oculto");
 }
 
 function redirigirContacto() {
-    window.location.href = 'contacto.html';
+    window.location.href = "contacto.html";
 }
 
 function reiniciarJuego() {
     detenerTemporizador();
     iniciarJuego();
 }
+
+botonContacto.addEventListener("click", redirigirContacto);
+botonCerrarModal.addEventListener("click", cerrarModal);
+comenzarBoton.addEventListener("click", iniciarJuego);
+reiniciarBoton.addEventListener("click", reiniciarJuego);

@@ -6,6 +6,7 @@
         <title>Buscaminas - ¡Juega ahora!</title>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link rel="stylesheet" href="styles/reset.css">
         <link rel="stylesheet" href="styles/style.css">
     </head>
     <body>
@@ -29,7 +30,7 @@
                         <span id="nivel">Nivel: 1</span> |
                         <span id="tiempo" class="tiempo">⏱️ Tiempo: 0s</span>
                     </div>
-                    <div id="informacion" class="informacion">
+                    <div id="informacionMinas" class="informacion">
                         <span id="minasRestantes" class="minas-restantes">Minas Restantes: -</span>
                     </div>
                     
@@ -53,10 +54,10 @@
         <div id="modal" class="modal oculto">
             <div class="modal-contenido">
                 <p id="modalMensaje"></p>
-                <button onclick="cerrarModal()">Cerrar</button>
+                <button id="cerrarModal">Cerrar</button>
             </div>
         </div>
 
-        <script src="scripts/script.js" defer></script>
+        <script src="scripts/script.js"></script>
     </body>
 </html>
