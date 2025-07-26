@@ -1,6 +1,8 @@
 var tableroContainer = document.getElementById('tablero');
 var formularioJugador = document.getElementById('formularioJugador');
 var informacionJugadorTexto = document.getElementById('informacionJugador');
+var reiniciarBoton = document.getElementById('reiniciar');
+var comenzarBoton = document.getElementById('comenzar');
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -12,8 +14,11 @@ var tiempoInicio = null;
 var intervaloTemporizador = null;
 var tiempoTranscurrido = 0;
 
-document.getElementById('comenzar').addEventListener('click', iniciarJuego);
 document.getElementById("contacto").addEventListener("click", redirigirContacto);
+comenzarBoton.addEventListener('click', iniciarJuego);
+reiniciarBoton.addEventListener('click', reiniciarJuego);
+
+reiniciarBoton.disabled = true;
 
 function iniciarJuego() {
     var nombreJugador = formularioJugador.nombreJugador.value;
@@ -35,6 +40,8 @@ function iniciarJuego() {
     banderasActivas = 0;
     actualizarContadorMinas();
     document.getElementById('tiempo').textContent = `⏱️ Tiempo: 0s`;
+    reiniciarBoton.disabled = false;
+    comenzarBoton.disabled = true;
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = '';
@@ -140,6 +147,8 @@ function revelarCelda(elemento) {
 function terminarJuego(mensajeFinal) {
     detenerTemporizador();
     partidaTerminada = true;
+    comenzarBoton.disabled = false;
+    reiniciarBoton.disabled = true;
     mostrarModal(mensajeFinal);
 
     // Mostramos todas las minas en el tablero
@@ -239,4 +248,9 @@ function cerrarModal() {
 
 function redirigirContacto() {
     window.location.href = 'contacto.html';
+}
+
+function reiniciarJuego() {
+    detenerTemporizador();
+    iniciarJuego();
 }

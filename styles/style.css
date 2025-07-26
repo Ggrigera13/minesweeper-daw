@@ -250,3 +250,11 @@ footer a.github-link:hover {
 footer .autor {
     color: #eee1c5;
 }
+
+.reiniciar:disabled, .comenzar:disabled {
+    background-color: #999999;
+    color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+  
