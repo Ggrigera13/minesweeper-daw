@@ -24,6 +24,25 @@ body {
     color: #eeeeee;
     text-align: center;
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 button, select, input {
@@ -54,7 +73,11 @@ p {
 }
 
 .controles {
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
 }
 
 .controles .comenzar {
@@ -71,6 +94,7 @@ p {
     text-align: center;
     min-width: max-content;
     border: 2px solid #5d3e1c;
+    width: 100%;
 }
 
 .informacion {
@@ -100,18 +124,19 @@ p {
 
 .tablero {
     display: grid;
-    margin: 20px auto;
     gap: 2px;
-    width: fit-content;
+    margin: 20px auto;
+    max-width: 100%;
+    justify-content: center;
 }
 
 .nivel-bajo {
-    grid-template-columns: repeat(8, 30px);
+    grid-template-columns: repeat(8, 35px);
 }
 
 .celda {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background-color: #cfc1c1;
     border: 1px solid #999999;
     font-weight: bold;
@@ -213,6 +238,8 @@ p {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px #000000;
+    max-width: 90%;
+    word-wrap: break-word;
 }
   
 .modal.oculto {
@@ -229,7 +256,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
 }
 
 footer a.github-link {
@@ -257,4 +284,40 @@ footer .autor {
     cursor: not-allowed;
     opacity: 0.7;
 }
-  
+
+@media (max-width: 600px) {
+    .informacion {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nivel-bajo {
+        grid-template-columns: repeat(8, 40px);
+    }
+
+    .nivel-bajo .celda {
+        width: 40px;
+        height: 40px;
+        font-size: 26px;
+    }
+
+    .modal-contenido {
+        width: 90%;
+        padding: 15px;
+    }
+
+    footer {
+        gap: 20px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .juego {
+        border: 0;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
