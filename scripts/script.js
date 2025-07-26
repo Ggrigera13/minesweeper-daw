@@ -7,6 +7,9 @@ var reiniciarBoton = document.getElementById("reiniciar");
 var comenzarBoton = document.getElementById("comenzar");
 var botonContacto = document.getElementById("contacto");
 var botonCerrarModal = document.getElementById("cerrarModal");
+var sonidoExplosion = document.getElementById('sonidoExplosion');
+var sonidoVictoria = document.getElementById('sonidoVictoria');
+var sonidoRevelar = document.getElementById('sonidoRevelar');
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -53,6 +56,21 @@ function detenerTemporizador() {
     clearInterval(intervaloTemporizador);
     intervaloTemporizador = null;
     tiempoInicio = null;
+}
+
+function reproducirExplosion() {
+    sonidoExplosion.currentTime = 0;
+    sonidoExplosion.play();
+}
+
+function reproducirVictoria() {
+    sonidoVictoria.currentTime = 0;
+    sonidoVictoria.play();
+}
+
+function reproducirRevelar() {
+    sonidoRevelar.currentTime = 0;
+    sonidoRevelar.play();
 }
 
 function terminarJuego(mensajeFinal) {
@@ -105,6 +123,8 @@ function revelarCelda(elemento) {
         return;
     }
 
+    reproducirRevelar();
+
     if (celda.banderaActiva) {
         celda.banderaActiva = false;
         celda.elemento.textContent = "";
@@ -117,6 +137,7 @@ function revelarCelda(elemento) {
     if (celda.mina) {
         celda.elemento.classList.add("mina");
         celda.elemento.textContent = "💣";
+        reproducirExplosion();
         terminarJuego("💣 Perdiste. Tocaste una mina.");
     } else if (celda.numero > 0) {
         celda.elemento.dataset.numero = celda.numero;
@@ -132,6 +153,7 @@ function revelarCelda(elemento) {
     }
 
     if (validarPartidaGanada()) {
+        reproducirVictoria();
         terminarJuego("🎉 ¡Ganaste! Felicitaciones.");
     }
 }
