@@ -1,0 +1,21 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos del editor
+.vscode/
+.idea/
+*.code-workspace
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+
+# Sistema operativo
+ehthumbs.db
+Desktop.ini
+
+# Cache del navegador
+.cache/
+*.bak
