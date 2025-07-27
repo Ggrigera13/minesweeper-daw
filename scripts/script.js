@@ -74,7 +74,54 @@ function reproducirRevelar() {
     sonidoRevelar.play();
 }
 
+function calcularPuntajeFinal(dificultad) {
+    var base = 0;
+    var penalizacion = 0;
+
+    switch (dificultad) {
+        case "facil":
+            base = 1000;
+            penalizacion = 5;
+            break;
+        case "medio":
+            base = 3000;
+            penalizacion = 4;
+            break;
+        case "dificil":
+            base = 5000;
+            penalizacion = 3;
+            break;
+        default:
+            base = 0;
+            penalizacion = 0;
+    }
+
+    var puntaje = base - (tiempoTranscurrido * penalizacion);
+    return Math.max(puntaje, 0);
+}
+
+
+function guardarResultadoPartida() {
+    var nombreJugador = formularioJugador.nombreJugador.value;
+    var puntajeFinal = calcularPuntajeFinal("facil");
+    var fechaActual = new Date();
+
+    var resultado = {
+        nombre: nombreJugador,
+        puntaje: puntajeFinal,
+        duracion: tiempoTranscurrido,
+        fecha: fechaActual.toLocaleDateString(),
+        hora: fechaActual.toLocaleTimeString()
+    };
+
+    var resultadosGuardados = JSON.parse(localStorage.getItem("resultados")) || [];
+    resultadosGuardados.push(resultado);
+
+    localStorage.setItem("resultados", JSON.stringify(resultadosGuardados));
+}
+
 function terminarJuego(mensajeFinal) {
+    guardarResultadoPartida();
     detenerTemporizador();
     partidaTerminada = true;
     comenzarBoton.disabled = false;
