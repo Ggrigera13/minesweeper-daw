@@ -35,5 +35,17 @@ function envioFormulario(e) {
   }
 }
 
+function cargarTemaGuardado() {
+  var temaGuardado = localStorage.getItem("tema");
+
+  if (temaGuardado === "claro") {
+      document.body.classList.add("tema-claro");
+    } else {
+      document.body.classList.remove("tema-claro");
+    }
+}
+
 var formulario = document.getElementById("formularioContacto");
 formulario.addEventListener("submit", envioFormulario);
+
+document.addEventListener("DOMContentLoaded", cargarTemaGuardado);

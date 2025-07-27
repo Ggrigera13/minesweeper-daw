@@ -4,9 +4,10 @@ body {
     flex-direction: column;
     align-items: center;
     margin: 20px;
-    background-color: #3e2f1c;
+    background-color: #2e2115;
     color: #eeeeee;
     text-align: center;
+    transition: background-color 0.3s ease;
 }
 main {
     display: flex;
@@ -27,7 +28,7 @@ button, select, input {
     margin-top: 10px;
     border: 1px solid #8c6849;
     border-radius: 4px;
-    background-color: #5a3d2b;
+    background-color: #4b2f1f;
     color: #fff5e6;
     font-family: inherit;
     font-weight: bold;
@@ -37,16 +38,21 @@ h1 {
     margin-bottom: 10px;
     color: #fbe5c4;
     font-size: 24px;
+    transition: color 0.3s ease;
 }
 p {
     color: #eee1c5;
     font-size: 16px;
+    transition: color 0.3s ease;
 }
 footer {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+label {
+    transition: color 0.3s ease;
 }
 
 /* Pseudoelementos/Pseudoclases */
@@ -97,6 +103,7 @@ button:hover, select:hover, input:hover {
     font-size: 16px;
     font-weight: bold;
     box-shadow: 0 0 8px #ffd29633;
+    transition: color 0.3s ease;
 }
 .informacion .tiempo {
     color: #ffb347;
@@ -124,7 +131,7 @@ button:hover, select:hover, input:hover {
     width: 35px;
     height: 35px;
     border: 1px solid #999999;
-    background-color: #cfc1c1;
+    background-color: #b5a8a8;
     font-weight: bold;
     font-size: 18px;
     cursor: pointer;
@@ -175,11 +182,46 @@ button:hover, select:hover, input:hover {
 }
 .contacto {
     padding: 10px 20px;
+    margin-bottom: 20px;
     font-size: 14px;
     cursor: pointer;
 }
 
 /* -- Clases compuestas -- */
+body.tema-claro {
+    background-color: #f4f1eb;
+    color: #3e2f1c;
+}
+body.tema-claro h1 {
+    color: #3e2f1c;
+}
+body.tema-claro p {
+    color: #3e2f1c;
+}
+body.tema-claro button,
+body.tema-claro input,
+body.tema-claro textarea {
+    border: 1px solid #c9b4a3;
+    background-color: #e6dbcf;
+    color: #3e2f1c;
+}
+body.tema-claro button:hover,
+body.tema-claro input:hover,
+body.tema-claro textarea:hover {
+    background-color: #d4c7be;
+}
+body.tema-claro .informacion {
+    border: 1px solid #c9b4a3;
+    background-color: #ded1c5;
+    color: #3e2f1c;
+}
+body.tema-claro .tiempo {
+    color: #c88527
+}
+body.tema-claro .modal-contenido {
+    background-color: #e6dbcf;
+    color: #3e2f1c;
+}
 .celda.revelada[data-numero='1'] { 
     color: #00aaff; 
 }

@@ -7,9 +7,10 @@ var reiniciarBoton = document.getElementById("reiniciar");
 var comenzarBoton = document.getElementById("comenzar");
 var botonContacto = document.getElementById("contacto");
 var botonCerrarModal = document.getElementById("cerrarModal");
-var sonidoExplosion = document.getElementById('sonidoExplosion');
-var sonidoVictoria = document.getElementById('sonidoVictoria');
-var sonidoRevelar = document.getElementById('sonidoRevelar');
+var sonidoExplosion = document.getElementById("sonidoExplosion");
+var sonidoVictoria = document.getElementById("sonidoVictoria");
+var sonidoRevelar = document.getElementById("sonidoRevelar");
+var cambioTemaBoton = document.getElementById("cambioTema");
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -278,7 +279,31 @@ function reiniciarJuego() {
     iniciarJuego();
 }
 
+function cambiarTema() {
+    document.body.classList.toggle("tema-claro");
+
+    var temaClaroActivo = document.body.classList.contains("tema-claro");
+    cambioTemaBoton.textContent = temaClaroActivo ? "🌙 Modo Oscuro" : "☀️ Modo Claro";
+
+    localStorage.setItem('tema', temaClaroActivo ? 'claro' : 'oscuro');
+}
+
+function cargarTemaGuardado() {
+    var temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "claro") {
+        document.body.classList.add("tema-claro");
+        cambioTemaBoton.textContent = "🌙 Modo Oscuro";
+      } else {
+        document.body.classList.remove("tema-claro");
+        cambioTemaBoton.textContent = "☀️ Modo Claro";
+      }
+}
+
 botonContacto.addEventListener("click", redirigirContacto);
 botonCerrarModal.addEventListener("click", cerrarModal);
 comenzarBoton.addEventListener("click", iniciarJuego);
 reiniciarBoton.addEventListener("click", reiniciarJuego);
+cambioTemaBoton.addEventListener("click", cambiarTema);
+
+document.addEventListener("DOMContentLoaded", cargarTemaGuardado);

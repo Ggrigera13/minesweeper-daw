@@ -7,7 +7,7 @@ textarea  {
     margin-top: 10px;
     border: 1px solid #8c6849;
     border-radius: 4px;
-    background-color: #5a3d2b;
+    background-color: #4b2f1f;
     color: #fff5e6;
     font-weight: bold;
     font-family: inherit;
@@ -36,6 +36,11 @@ textarea:hover {
 }
 .error {
     color: red;
+}
+
+/* -- Clases compuestas -- */
+body.tema-claro label {
+    color: #fff5e6;
 }
 
 /* Media Queries */
