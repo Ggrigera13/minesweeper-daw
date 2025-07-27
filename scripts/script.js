@@ -294,6 +294,11 @@ function generarConfiguracionDificultad(dificultad) {
     }
 }
 
+function aplicarEstiloDificultad(dificultad) {
+    tableroContainer.classList.remove("nivel-bajo", "nivel-medio", "nivel-alto");
+    tableroContainer.classList.add(dificultad);
+}
+
 function iniciarJuego() {
     var nombreJugador = formularioJugador.nombreJugador.value;
     if (!nombreJugador) {
@@ -319,10 +324,11 @@ function iniciarJuego() {
     document.getElementById("nivel").textContent = `Nivel: ${dificultadSeleccionada.charAt(0).toUpperCase() + dificultadSeleccionada.slice(1)}`;
     reiniciarBoton.disabled = false;
     comenzarBoton.disabled = true;
-
+    
     /* Creacion de tablero */
     tableroContainer.innerHTML = "";
     tableroContainer.classList.add("tablero");
+    aplicarEstiloDificultad(dificultadSeleccionada);
     tableroContainer.classList.add(claseTablero);
 
     for (var fila = 0; fila < filas; fila++) {
