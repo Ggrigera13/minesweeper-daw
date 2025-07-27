@@ -138,21 +138,23 @@ button:hover, select:hover, input:hover {
     font-weight: bold;
 }
 .tablero {
-    display: grid;
-    gap: 2px;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 2px;
     max-width: 100%;
     overflow-x: auto;
     margin: 20px auto;
 }
+/* Calculo el ancho de las celdas con la cantidad de celdas y el espacio entre ellas */
 .nivel-bajo {
-    grid-template-columns: repeat(8, 35px);
+    width: calc(8 * 35px + 7 * 2px);
 }
 .nivel-medio {
-    grid-template-columns: repeat(12, 35px);
+    width: calc(12 * 35px + 11 * 2px);
 }
 .nivel-alto {
-    grid-template-columns: repeat(16, 35px);
+    width: calc(16 * 35px + 15 * 2px);
 }
 .celda {
     width: 35px;
@@ -355,7 +357,7 @@ footer .autor {
         flex-direction: column;
     }
     .nivel-bajo {
-        grid-template-columns: repeat(8, 40px);
+        width: calc(8 * 40px + 7 * 2px);
     }
     .nivel-bajo .celda {
         width: 40px;
@@ -363,7 +365,7 @@ footer .autor {
         font-size: 26px;
     }
     .nivel-medio {
-        grid-template-columns: repeat(12, 30px);
+        width: calc(12 * 30px + 11 * 2px);
     }
     .nivel-medio .celda {
         width: 30px;
@@ -371,7 +373,7 @@ footer .autor {
         font-size: 20px;
     }
     .nivel-alto {
-        grid-template-columns: repeat(16, 20px);
+        width: calc(16 * 20px + 15 * 2px);
     }
     .nivel-alto .celda {
         width: 20px;
