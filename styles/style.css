@@ -221,6 +221,7 @@ button:hover, select:hover, input:hover {
     overflow: auto;
 }
 .modal-ranking-contenido {
+    max-height: 700px;
     padding: 20px 30px;
     border-radius: 10px;
     background: #4a3320;
