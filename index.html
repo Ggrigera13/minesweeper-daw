@@ -14,6 +14,7 @@
             <h1>🔥Buscaminas🔥</h1>
             <p>¡Evita las minas 💣 y revela todas las celdas 🔲!</p>
             <button id="cambioTema" class="tema-boton">☀️ Modo Claro</button>
+            <button id="ranking" class="ranking-boton">🏆 Ranking</button>
         </header>
         <main>
             <section>
@@ -56,6 +57,26 @@
             <div class="modal-contenido">
                 <p id="modalMensaje"></p>
                 <button id="cerrarModal">Cerrar</button>
+            </div>
+        </div>
+
+        <div id="rankingModal" class="modal-ranking oculto">
+            <div class="modal-ranking-contenido">
+                <h2>🏆 Ranking de Partidas</h2>
+                <table id="tablaRanking" class="tabla-ranking">
+                    <thead>
+                        <tr>
+                            <th>Jugador</th>
+                            <th>Puntaje</th>
+                            <th>Duración (s)</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingCuerpo">
+                    </tbody>
+                </table>
+                <button id="cerrarModalRanking">Cerrar</button>
             </div>
         </div>
 

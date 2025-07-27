@@ -11,6 +11,9 @@ var sonidoExplosion = document.getElementById("sonidoExplosion");
 var sonidoVictoria = document.getElementById("sonidoVictoria");
 var sonidoRevelar = document.getElementById("sonidoRevelar");
 var cambioTemaBoton = document.getElementById("cambioTema");
+var rankingBoton = document.getElementById("ranking");
+var rankingModal = document.getElementById("rankingModal");
+var botonCerrarModalRanking = document.getElementById("cerrarModalRanking");
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -317,6 +320,11 @@ function cerrarModal() {
     modal.classList.add("oculto");
 }
 
+function cerrarModalRanking() {
+    var rankingModal = document.getElementById("rankingModal");
+    rankingModal.classList.add("oculto");
+}
+
 function redirigirContacto() {
     window.location.href = "contacto.html";
 }
@@ -347,10 +355,41 @@ function cargarTemaGuardado() {
       }
 }
 
+function mostrarRanking() {
+    var resultados = JSON.parse(localStorage.getItem("resultados")) || [];
+
+    resultados.sort(function(a, b) {
+        return b.puntaje - a.puntaje;
+    });
+
+    var tbody = document.getElementById("rankingCuerpo");
+    tbody.innerHTML = "";
+
+    if (resultados.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5'>No hay resultados guardados.</td></tr>";
+    } else {
+        resultados.forEach(function(resultado) {
+            var fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${resultado.nombre}</td>
+                <td>${resultado.puntaje}</td>
+                <td>${resultado.duracion}</td>
+                <td>${resultado.fecha}</td>
+                <td>${resultado.hora}</td>
+            `;
+            tbody.appendChild(fila);
+        });
+    }
+
+    rankingModal.classList.remove("oculto");
+}
+
 botonContacto.addEventListener("click", redirigirContacto);
 botonCerrarModal.addEventListener("click", cerrarModal);
 comenzarBoton.addEventListener("click", iniciarJuego);
 reiniciarBoton.addEventListener("click", reiniciarJuego);
 cambioTemaBoton.addEventListener("click", cambiarTema);
+rankingBoton.addEventListener("click", mostrarRanking);
+botonCerrarModalRanking.addEventListener("click", cerrarModalRanking)
 
 document.addEventListener("DOMContentLoaded", cargarTemaGuardado);

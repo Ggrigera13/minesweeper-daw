@@ -177,6 +177,43 @@ button:hover, select:hover, input:hover {
     box-shadow: 0 0 10px #000000;
     word-wrap: break-word;
 }
+.modal-ranking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000099;
+    text-align: center;
+    z-index: 9999;
+    overflow: auto;
+}
+.modal-ranking-contenido {
+    padding: 20px 30px;
+    border-radius: 10px;
+    background: #4a3320;
+    text-align: center;
+    box-shadow: 0 0 10px #000000;
+    word-wrap: break-word;
+    overflow: auto;
+}
+.tabla-ranking {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+.tabla-ranking th {
+    background-color: #e6dbcf;
+    color: #4a3320;
+}
+.tabla-ranking th, .tabla-ranking td {
+    padding: 8px;
+    border: 1px solid #8c6849;
+    text-align: center;
+}
 .minas-restantes {
     transition: color 0.3s ease;
 }
@@ -222,6 +259,14 @@ body.tema-claro .modal-contenido {
     background-color: #e6dbcf;
     color: #3e2f1c;
 }
+body.tema-claro .modal-ranking-contenido {
+    background-color: #e6dbcf;
+    color: #3e2f1c;
+}
+body.tema-claro .tabla-ranking th {
+    background-color: #4a3320;
+    color: #e6dbcf;
+}
 .celda.revelada[data-numero='1'] { 
     color: #00aaff; 
 }
@@ -255,6 +300,9 @@ body.tema-claro .modal-contenido {
     color: red;
 }
 .modal.oculto {
+    display: none;
+}
+.modal-ranking.oculto {
     display: none;
 }
 footer a.github-link {
