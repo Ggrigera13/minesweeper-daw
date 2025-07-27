@@ -34,6 +34,9 @@ button, select, input {
     font-weight: bold;
     cursor: pointer;
 }
+select {
+    font-size: 12px;
+}
 h1 {
     margin-bottom: 10px;
     color: #fbe5c4;
@@ -72,15 +75,33 @@ button:hover, select:hover, input:hover {
 }
 
 /* Clases */
+.formulario-jugador {
+    display: flex;
+    flex-direction: column;
+}
 .controles {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
     margin: 20px 0;
+    font-size: 14px;
 }
 .controles .comenzar {
     font-size: 14px;
+}
+.control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+.control label {
+    white-space: nowrap;
+}
+.control-botones {
+    display: flex;
+    gap: 5px;
 }
 .juego {
     width: 100%;
@@ -126,6 +147,12 @@ button:hover, select:hover, input:hover {
 }
 .nivel-bajo {
     grid-template-columns: repeat(8, 35px);
+}
+.nivel-medio {
+    grid-template-columns: repeat(12, 35px);
+}
+.nivel-alto {
+    grid-template-columns: repeat(16, 35px);
 }
 .celda {
     width: 35px;
@@ -327,22 +354,34 @@ footer .autor {
         display: flex;
         flex-direction: column;
     }
-
     .nivel-bajo {
         grid-template-columns: repeat(8, 40px);
     }
-
     .nivel-bajo .celda {
         width: 40px;
         height: 40px;
         font-size: 26px;
     }
-
+    .nivel-medio {
+        grid-template-columns: repeat(12, 30px);
+    }
+    .nivel-medio .celda {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+    }
+    .nivel-alto {
+        grid-template-columns: repeat(16, 20px);
+    }
+    .nivel-alto .celda {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+    }
     .modal-contenido {
         width: 90%;
         padding: 15px;
     }
-
     footer {
         gap: 20px;
         padding: 10px;

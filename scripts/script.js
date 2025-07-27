@@ -19,6 +19,7 @@ var tablero = [];
 var filas = 0;
 var columnas = 0;
 var minas = 0;
+var claseTablero = ""
 var partidaTerminada = false;
 var banderasActivas = 0;
 var tiempoInicio = null;
@@ -107,7 +108,8 @@ function calcularPuntajeFinal(dificultad) {
 
 function guardarResultadoPartida() {
     var nombreJugador = formularioJugador.nombreJugador.value;
-    var puntajeFinal = calcularPuntajeFinal("facil");
+    var dificultad = tableroContainer.dataset.dificultad;
+    var puntajeFinal = calcularPuntajeFinal(dificultad);
     var fechaActual = new Date();
 
     var resultado = {
@@ -269,6 +271,29 @@ function colocarMinas() {
     }
 }
 
+function generarConfiguracionDificultad(dificultad) {
+    switch (dificultad) {
+        case "facil":
+            filas = 8;
+            columnas = 8;
+            minas = 10;
+            claseTablero = "nivel-bajo";
+            break;
+        case "medio":
+            filas = 12;
+            columnas = 12;
+            minas = 25;
+            claseTablero = "nivel-medio";
+            break;
+        case "dificil":
+            filas = 16;
+            columnas = 16;
+            minas = 40;
+            claseTablero = "nivel-alto";
+            break;
+    }
+}
+
 function iniciarJuego() {
     var nombreJugador = formularioJugador.nombreJugador.value;
     if (!nombreJugador) {
@@ -281,23 +306,24 @@ function iniciarJuego() {
         return;
     }
 
+    var dificultadSeleccionada = document.getElementById("dificultad").value;
+    generarConfiguracionDificultad(dificultadSeleccionada);
+
     /* Reseteamos todas las variables de juego*/
     tablero = [];
-    minas = 10;
     partidaTerminada = false;
     informacionJugadorTexto.textContent = `Jugador: ${nombreJugador}`;
     banderasActivas = 0;
     actualizarContadorMinas();
     document.getElementById("tiempo").textContent = "⏱️ Tiempo: 0s";
+    document.getElementById("nivel").textContent = `Nivel: ${dificultadSeleccionada.charAt(0).toUpperCase() + dificultadSeleccionada.slice(1)}`;
     reiniciarBoton.disabled = false;
     comenzarBoton.disabled = true;
 
     /* Creacion de tablero */
     tableroContainer.innerHTML = "";
     tableroContainer.classList.add("tablero");
-    tableroContainer.classList.add("nivel-bajo");
-    filas = 8;
-    columnas = 8;
+    tableroContainer.classList.add(claseTablero);
 
     for (var fila = 0; fila < filas; fila++) {
         tablero[fila] = [];
@@ -314,6 +340,7 @@ function iniciarJuego() {
     }
 
     colocarMinas();
+    tableroContainer.dataset.dificultad = dificultadSeleccionada;
 }
 
 function cerrarModal() {
@@ -406,6 +433,5 @@ cambioTemaBoton.addEventListener("click", cambiarTema);
 rankingBoton.addEventListener("click", mostrarRanking);
 botonCerrarModalRanking.addEventListener("click", cerrarModalRanking)
 selectOrdenRanking.addEventListener("change", mostrarRanking);
-
 
 document.addEventListener("DOMContentLoaded", cargarTemaGuardado);

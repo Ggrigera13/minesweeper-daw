@@ -20,16 +20,28 @@
             <section>
                 <div class="controles">
                     <form id="formularioJugador" class="formulario-jugador">
-                        <label for="nombreJugador">Nombre del jugador:</label>
-                        <input type="text" id="nombreJugador" placeholder="Ingresá tu nombre" />
-                      </form>
-                    <button id="comenzar" class="comenzar">Comenzar Juego</button>
-                    <button id="reiniciar" class="reiniciar">Reiniciar Juego</button>
+                        <div class="control">
+                            <label for="nombreJugador">Nombre del jugador:</label>
+                            <input type="text" id="nombreJugador" placeholder="Ingresá tu nombre" />
+                        </div>
+                        <div class="control">
+                            <label for="dificultad">Dificultad:</label>
+                            <select id="dificultad">
+                                <option value="facil">Fácil (8x8 - 10 minas)</option>
+                                <option value="medio">Medio (12x12 - 25 minas)</option>
+                                <option value="dificil">Difícil (16x16 - 40 minas)</option>
+                            </select>
+                        </div>
+                    </form>
+                    <div class="control-botones">
+                        <button id="comenzar" class="comenzar">Comenzar Juego</button>
+                        <button id="reiniciar" class="reiniciar">Reiniciar Juego</button>
+                    </div>
                 </div>
                 <div class="juego">
                     <div id="informacion" class="informacion">
                         <span id="informacionJugador">Jugador: -</span> |
-                        <span id="nivel">Nivel: 1</span> |
+                        <span id="nivel">Nivel: Fácil</span> |
                         <span id="tiempo" class="tiempo">⏱️ Tiempo: 0s</span>
                     </div>
                     <div id="informacionMinas" class="informacion">
