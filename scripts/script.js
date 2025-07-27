@@ -14,6 +14,7 @@ var cambioTemaBoton = document.getElementById("cambioTema");
 var rankingBoton = document.getElementById("ranking");
 var rankingModal = document.getElementById("rankingModal");
 var botonCerrarModalRanking = document.getElementById("cerrarModalRanking");
+var selectOrdenRanking = document.getElementById("ordenRanking");
 var tablero = [];
 var filas = 0;
 var columnas = 0;
@@ -355,12 +356,25 @@ function cargarTemaGuardado() {
       }
 }
 
+function ordenarRankingPorPuntaje(a, b) {
+    return b.puntaje - a.puntaje;
+}
+
+function ordenarRankingPorFecha(a, b) {
+    var fechaA = new Date(`${a.fecha} ${a.hora}`);
+    var fechaB = new Date(`${b.fecha} ${b.hora}`);
+    return fechaB - fechaA;
+}
+
 function mostrarRanking() {
     var resultados = JSON.parse(localStorage.getItem("resultados")) || [];
+    var ordenCriterio = document.getElementById("ordenRanking").value;
 
-    resultados.sort(function(a, b) {
-        return b.puntaje - a.puntaje;
-    });
+    if (ordenCriterio === "puntaje") {
+        resultados.sort(ordenarRankingPorPuntaje);
+    } else {
+        resultados.sort(ordenarRankingPorFecha);
+    }
 
     var tbody = document.getElementById("rankingCuerpo");
     tbody.innerHTML = "";
@@ -391,5 +405,7 @@ reiniciarBoton.addEventListener("click", reiniciarJuego);
 cambioTemaBoton.addEventListener("click", cambiarTema);
 rankingBoton.addEventListener("click", mostrarRanking);
 botonCerrarModalRanking.addEventListener("click", cerrarModalRanking)
+selectOrdenRanking.addEventListener("change", mostrarRanking);
+
 
 document.addEventListener("DOMContentLoaded", cargarTemaGuardado);
